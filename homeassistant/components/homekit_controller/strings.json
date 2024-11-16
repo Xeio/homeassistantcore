@@ -68,6 +68,13 @@
       "double_press": "\"{subtype}\" pressed twice",
       "long_press": "\"{subtype}\" pressed and held",
       "single_press": "\"{subtype}\" pressed"
+    },
+    "action_type": {
+      "ecobee_set_hold_duration": "Set Climate Hold Duration"
+    },
+    "extra_fields": {
+      "hold_duration": "Hold Duration",
+      "ecobee_timezone": "Time Zone of Ecobee device"
     }
   },
   "entity": {
