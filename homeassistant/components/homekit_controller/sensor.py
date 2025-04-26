@@ -4,6 +4,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import override
+import re
 
 from aiohomekit.model import Accessory, Transport
 from aiohomekit.model.characteristics import Characteristic, CharacteristicsTypes
@@ -141,6 +142,11 @@ def thread_status_to_str(char: Characteristic) -> str:
     # Must be ThreadStatus.DISABLED
     # Device is not currently connected to Thread and will not try to.
     return "disabled"
+
+
+def trim_help_string(char: Characteristic) -> str:
+    """Trim help text to reduce length of alert."""
+    return re.sub(r" For help, visit.+", "", char.value)
 
 
 SIMPLE_SENSOR: dict[str, HomeKitSensorEntityDescription] = {
@@ -380,6 +386,11 @@ SIMPLE_SENSOR: dict[str, HomeKitSensorEntityDescription] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfRatio.PERCENTAGE,
         )
+    ),
+    CharacteristicsTypes.VENDOR_ECOBEE_ALERT_TEXT: HomeKitSensorEntityDescription(
+        key=CharacteristicsTypes.VENDOR_ECOBEE_ALERT_TEXT,
+        name="Alerts",
+        format=trim_help_string,
     ),
 }
 
